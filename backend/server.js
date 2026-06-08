@@ -13,7 +13,14 @@ const PORT = process.env.PORT || 3001;
 
 app.use(cors());
 app.use(express.json());
+app.use(cors());
+  app.use(express.json());
 
+  app.get("/", (req, res) => {
+    res.send("Resume-Analyzer Backend is Live ✅");
+  });
+
+  const storage = multer.memoryStorage();
 const storage = multer.memoryStorage();
 const upload = multer({
   storage,
