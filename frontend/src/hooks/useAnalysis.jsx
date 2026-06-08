@@ -1,6 +1,8 @@
-import { createContext, useContext, useState } from 'react'
+ import { createContext, useContext, useState } from 'react'
 
 const AnalysisContext = createContext(null)
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 export function AnalysisProvider({ children }) {
   const [analysisData, setAnalysisData] = useState(null)
@@ -15,7 +17,10 @@ export function AnalysisProvider({ children }) {
       formData.append('resume', file)
       formData.append('jobRole', jobRole)
 
-      const res = await fetch('/api/analyze', { method: 'POST', body: formData })
+      const res = await fetch(`${API_URL}/api/analyze`, { 
+        method: 'POST', 
+        body: formData 
+      })
       if (!res.ok) throw new Error('Analysis failed')
       const data = await res.json()
       setAnalysisData(data.analysis)
@@ -32,7 +37,7 @@ export function AnalysisProvider({ children }) {
     setIsLoading(true)
     setError(null)
     try {
-      const res = await fetch('/api/analyze-sample', {
+      const res = await fetch(`${API_URL}/api/analyze-sample`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ jobRole })
@@ -50,14 +55,4 @@ export function AnalysisProvider({ children }) {
   }
 
   return (
-    <AnalysisContext.Provider value={{ analysisData, isLoading, error, analyzeResume, analyzeSample, setAnalysisData }}>
-      {children}
-    </AnalysisContext.Provider>
-  )
-}
-
-export function useAnalysis() {
-  const ctx = useContext(AnalysisContext)
-  if (!ctx) throw new Error('useAnalysis must be used within AnalysisProvider')
-  return ctx
-}
+    <AnalysisContext.Provider value={{ analysisData, isLoading,
