@@ -4,7 +4,7 @@ import HomePage from './pages/HomePage'
 import UploadPage from './pages/UploadPage'
 import DashboardPage from './pages/DashboardPage'
 import AboutPage from './pages/AboutPage'
-import { AnalysisProvider } from './hooks/useAnalysis'
+import { AnalysisProvider } from './components/AnalysisProvider'
 
 export default function App() {
   return (
