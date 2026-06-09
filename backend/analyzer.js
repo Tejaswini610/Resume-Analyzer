@@ -1,4 +1,4 @@
-import pdfParse from "pdf-parse";
+ import pdfParse from "pdf-parse";
 
 export async function extractTextFromPDF(buffer) {
   const data = await pdfParse(buffer);
@@ -89,14 +89,13 @@ function detectSections(text) {
     };
   }
 
-  // Estimate section quality by content length around keywords
   const lines = text.split("\n").filter((l) => l.trim());
-  sections.contact.strength = sections.contact.found ? (text.match(SECTION_PATTERNS.contact) || []).length >= 2 ? "strong" : "moderate" : "weak";
-  sections.experience.strength = lines.length > 15 ? "strong" : lines.length > 8 ? "moderate" : "weak";
-  sections.education.strength = sections.education.found ? "strong" : "weak";
-  sections.skills.strength = sections.skills.found ? "strong" : "moderate";
-  sections.projects.strength = sections.projects.found ? "moderate" : "weak";
-  sections.summary.strength = sections.summary.found ? "strong" : "weak";
+  sections.contact.strength = sections.contact.found? (text.match(SECTION_PATTERNS.contact) || []).length >= 2? "strong" : "moderate" : "weak";
+  sections.experience.strength = lines.length > 15? "strong" : lines.length > 8? "moderate" : "weak";
+  sections.education.strength = sections.education.found? "strong" : "weak";
+  sections.skills.strength = sections.skills.found? "strong" : "moderate";
+  sections.projects.strength = sections.projects.found? "moderate" : "weak";
+  sections.summary.strength = sections.summary.found? "strong" : "weak";
 
   return sections;
 }
@@ -109,7 +108,7 @@ function extractSkills(text) {
 
   for (const [category, data] of Object.entries(SKILL_CATEGORIES)) {
     const found = data.keywords.filter((kw) => lowerText.includes(kw));
-    const missing = data.keywords.filter((kw) => !lowerText.includes(kw)).slice(0, 4);
+    const missing = data.keywords.filter((kw) =>!lowerText.includes(kw)).slice(0, 4);
     foundSkills[category] = { found, missing, coverage: found.length / data.keywords.length };
     allFound.push(...found);
     allMissing.push(...missing.slice(0, 2));
@@ -122,22 +121,18 @@ function calculateATSScore(text, jobRole, sections, skillData) {
   let score = 0;
   const breakdown = {};
 
-  // Contact info (10 pts)
   const contactMatches = (text.match(SECTION_PATTERNS.contact) || []).length;
   breakdown.contact = Math.min(10, contactMatches * 4);
   score += breakdown.contact;
 
-  // Sections present (20 pts)
   const sectionCount = Object.values(sections).filter((s) => s.found).length;
   breakdown.sections = Math.min(20, sectionCount * 3.5);
   score += breakdown.sections;
 
-  // Skills match (30 pts)
   const totalSkillsFound = Object.values(skillData.byCategory).reduce((a, c) => a + c.found.length, 0);
   breakdown.skills = Math.min(30, totalSkillsFound * 1.2);
   score += breakdown.skills;
 
-  // Job role match (25 pts)
   const requirements = JOB_ROLE_REQUIREMENTS[jobRole] || JOB_ROLE_REQUIREMENTS["Software Engineer"];
   const lowerText = text.toLowerCase();
   const mustHave = requirements.must.filter((r) => lowerText.includes(r)).length;
@@ -146,11 +141,10 @@ function calculateATSScore(text, jobRole, sections, skillData) {
   breakdown.jobMatch = Math.min(25, mustHave * 4 + preferred * 2 + bonus * 1);
   score += breakdown.jobMatch;
 
-  // Content quality (15 pts)
   const wordCount = text.split(/\s+/).filter(Boolean).length;
   const hasMetrics = /\d+%|\$[\d,]+|\d+\+\s*(years|engineers|users|customers)/i.test(text);
   const hasActionVerbs = /(built|led|developed|designed|implemented|optimized|reduced|increased|managed)/i.test(text);
-  breakdown.quality = Math.min(15, (wordCount > 200 ? 5 : 2) + (hasMetrics ? 5 : 0) + (hasActionVerbs ? 5 : 0));
+  breakdown.quality = Math.min(15, (wordCount > 200? 5 : 2) + (hasMetrics? 5 : 0) + (hasActionVerbs? 5 : 0));
   score += breakdown.quality;
 
   return { total: Math.round(Math.min(100, score)), breakdown };
@@ -168,7 +162,7 @@ function generateRecommendations(sections, skillData, atsScore, jobRole) {
     recommendations.push({ type: "critical", icon: "📧", title: "Complete Contact Info", desc: "Include email, phone, LinkedIn profile, and GitHub/portfolio URL." });
   }
 
-  const missingMust = requirements.must.filter((r) => !skillData.allFound.includes(r));
+  const missingMust = requirements.must.filter((r) =>!skillData.allFound.includes(r));
   if (missingMust.length > 0) {
     recommendations.push({ type: "critical", icon: "🔑", title: `Add Key Skills for ${jobRole}`, desc: `Missing critical skills: ${missingMust.join(", ")}. These are required for most ${jobRole} roles.` });
   }
@@ -192,9 +186,8 @@ function generateRecommendations(sections, skillData, atsScore, jobRole) {
 }
 
 export function analyzeResume(text, jobRole = "Software Engineer") {
-  // If no text extracted, use enriched mock
   const isReal = text.trim().length > 100;
-  const analysisText = isReal ? text : generateMockText(jobRole);
+  const analysisText = isReal? text : generateMockText(jobRole);
 
   const sections = detectSections(analysisText);
   const skillData = extractSkills(analysisText);
@@ -205,7 +198,7 @@ export function analyzeResume(text, jobRole = "Software Engineer") {
     name: name.charAt(0).toUpperCase() + name.slice(1),
     found: data.found,
     strength: data.strength,
-    score: data.strength === "strong" ? 90 + Math.floor(Math.random() * 10) : data.strength === "moderate" ? 55 + Math.floor(Math.random() * 20) : 15 + Math.floor(Math.random() * 20),
+    score: data.strength === "strong"? 90 + Math.floor(Math.random() * 10) : data.strength === "moderate"? 55 + Math.floor(Math.random() * 20) : 15 + Math.floor(Math.random() * 20),
   }));
 
   const categoryScores = Object.entries(skillData.byCategory).map(([cat, data]) => ({
@@ -238,7 +231,7 @@ export function analyzeResume(text, jobRole = "Software Engineer") {
   };
 }
 
-function generateMockText(jobRole) {
+export function generateMockText(jobRole) {
   const base = {
     "Software Engineer": `Alex Johnson | alex@email.com | github.com/alexj
 SUMMARY: Experienced software engineer with 5+ years building scalable applications.
@@ -253,6 +246,21 @@ SUMMARY: Data scientist specializing in ML and predictive analytics.
 EXPERIENCE: Data Scientist at Analytics Corp (2020-Present) - TensorFlow models, Pandas data pipelines.
 EDUCATION: M.S. Data Science
 SKILLS: Python, Machine Learning, TensorFlow, Pandas, NumPy, SQL, Tableau`,
+
+    "Frontend Developer": `Sam Wilson | sam@email.com
+SUMMARY: Frontend developer passionate about UI/UX and performance.
+EXPERIENCE: Frontend Dev at TechCo - Built React apps, TypeScript migration, Tailwind CSS.
+SKILLS: JavaScript, React, HTML, CSS, TypeScript, Webpack, Git`,
+
+    "Backend Developer": `Jordan Lee | jordan@email.com
+SUMMARY: Backend engineer building robust APIs and microservices.
+EXPERIENCE: Backend Dev - Node.js, Express, PostgreSQL, Docker, Redis.
+SKILLS: Node.js, SQL, REST API, Git, Testing, Docker, AWS`,
+
+    "DevOps Engineer": `Casey Brown | casey@email.com
+SUMMARY: DevOps engineer automating cloud infrastructure.
+EXPERIENCE: DevOps at CloudInc - Kubernetes, CI/CD, Terraform, Linux.
+SKILLS: Linux, Docker, Kubernetes, CI/CD, Git, AWS, Ansible, Jenkins`
   };
   return base[jobRole] || base["Software Engineer"];
 }
