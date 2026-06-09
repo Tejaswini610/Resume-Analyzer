@@ -1,4 +1,4 @@
-# 🤖 ResumeAI — Intelligent Resume Analyzer
+# 🤖 ATS Smart Resume Analyzer — Intelligent Resume Analyzer
 
 A full-stack AI-powered resume analysis platform with futuristic dark UI, ATS scoring, skills gap analysis, and personalized recommendations.
 

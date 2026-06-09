@@ -130,7 +130,7 @@ export default function HomePage() {
             Ready to Land More Interviews?
           </h2>
           <p style={{ color: '#94a3b8', marginBottom: '28px' }}>
-            Join thousands of professionals who use ResumeAI to get past ATS filters and impress recruiters.
+            Join thousands of professionals who use ATS Smart Resume Analyzer to get past ATS filters and impress recruiters.
           </p>
           <button onClick={() => navigate('/upload')} className="btn-primary text-white font-bold"
             style={{ padding: '14px 36px', borderRadius: '12px', fontSize: '1rem' }}>

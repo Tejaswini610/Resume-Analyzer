@@ -70,7 +70,7 @@ export default function UploadPage() {
         </div>
 
         {/* Job Role Selector */}
-        <div className="glass-card mb-6" style={{ padding: '24px' }}>
+        <div className="glass-card mb-6 relative z-20" style={{ padding: '24px' }}>
           <label style={{ color: '#94a3b8', fontSize: '0.8rem', fontWeight: '600', letterSpacing: '0.05em', marginBottom: '10px', display: 'block' }}>
             TARGET JOB ROLE
           </label>
@@ -113,7 +113,7 @@ export default function UploadPage() {
         </div>
 
         {/* Drop Zone */}
-        <div className="glass-card mb-4" style={{ padding: '6px' }}>
+        <div className="glass-card mb-4 relative z-10" style={{ padding: '6px' }}>
           <div
             {...getRootProps()}
             style={{

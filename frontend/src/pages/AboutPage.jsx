@@ -24,10 +24,10 @@ export default function AboutPage() {
             <Brain size={34} style={{ color: '#00d4ff' }} />
           </div>
           <h1 className="font-orbitron font-black text-white mb-4" style={{ fontSize: 'clamp(1.8rem, 4vw, 2.8rem)' }}>
-            About <span className="gradient-text">ResumeAI</span>
+            About <span className="gradient-text">ATS Smart Resume Analyzer</span>
           </h1>
           <p style={{ color: '#64748b', maxWidth: '560px', margin: '0 auto', lineHeight: '1.7', fontSize: '1rem' }}>
-            ResumeAI is an intelligent resume analysis platform that helps job seekers optimize their resumes for ATS systems and human recruiters alike. Built with modern AI techniques and a recruiter-informed scoring model.
+            ATS Smart Resume Analyzer is an intelligent resume analysis platform that helps job seekers optimize their resumes for ATS systems and human recruiters alike. Built with modern AI techniques and a recruiter-informed scoring model.
           </p>
         </div>
 
