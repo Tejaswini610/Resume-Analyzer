@@ -1,10 +1,10 @@
  import express from "express";
 import cors from "cors";
 import multer from "multer";
-import dotenv from "dotenv";
+ 
 import { analyzeResume, extractTextFromPDF, generateMockText } from "./analyzer.js";
 
-dotenv.config();
+ 
 
 const app = express();
 const upload = multer({ storage: multer.memoryStorage() });
