@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDropzone } from 'react-dropzone'
-import { useAnalysis } from '../hooks/useAnalysis'
+import { useAnalysis } from '../components/AnalysisProvider'
 import { Upload, FileText, Zap, ChevronDown, AlertCircle, Sparkles, X, CheckCircle } from 'lucide-react'
 
 const JOB_ROLES = [

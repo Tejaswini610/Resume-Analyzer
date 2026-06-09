@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAnalysis } from '../hooks/useAnalysis'
+import { useAnalysis } from '../components/AnalysisProvider'
 import ScoreRing from '../components/ScoreRing'
 import ProgressBar from '../components/ProgressBar'
 import {
