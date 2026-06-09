@@ -55,10 +55,18 @@ export function AnalysisProvider({ children }) {
   }
 
   return (
-      <AnalysisContext.Provider value={{ analysisData, isLoading, error, analyzeSample }}>
+    <AnalysisContext.Provider value={{ analysisData, isLoading, error, analyzeResume, analyzeSample }}>
       {children}
     </AnalysisContext.Provider>
   );
+}
+
+export function useAnalysis() {
+  const context = useContext(AnalysisContext)
+  if (context === null) {
+    throw new Error('useAnalysis must be used within an AnalysisProvider')
+  }
+  return context
 }
 
 export default AnalysisProvider;
